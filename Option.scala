@@ -25,11 +25,20 @@ sealed trait Option[+A] {
         case Some(a) if(f(a)) => this  
         case None => None    
     }
+
 }
 case object None extends Option[Nothing]
 case class Some[+A](get:A) extends Option[A]
 
+object Option{
+    def map2[A,B,C](a:Option[A], b :Option[B])(f : (A,B)=> C): Option[C] = (a,b) match {
+        case (Some(a),Some(b)) => Some(f(a,b)) 
+        case _ => None
+    }
+}
 object TestOption {
+    import Option._ 
+
     def main(args: Array[String]): Unit = {
         val a = Some(1)
         val b = Some(2)
